@@ -5,6 +5,8 @@
 <head>
 	<meta charset="utf-8">
 		<title>Police Emergency Service System</title>
+		<link href="header_style.css" rel="stylesheet" type="text/css">
+		<link href="content_style.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
 		function validateForm()
 		{
@@ -23,10 +25,10 @@
 <body>
 <form name="frmLogCall" method="post"
 	onSubmit="return validateForm()" action="dispatch.php">
+	<table class="ContentStyle">
 	
-	<table>
 		<tr>
-			<td colspan="2">Log call Panel</td>
+			<td colspan="2" style="color:yellow;font-family:cursive;">Log call Panel</td>
 		</tr>
 		
 		<tr>	
@@ -56,19 +58,19 @@
 				?>
 	
 		
-			<td>Caller's Name :</td>
+			<td style="color:purple;font-family:fantasy;">Caller's Name :</td>
 			<td><input type="text" name="callerName" id="callerName"></td>
 		</tr>
 		<tr>
-			<td>Contact No. :</td>
+			<td style="color:purple;font-family:fantasy;">Contact No. :</td>
 			<td><input type="text" name="contactNo" id="contactNo"></td>
 		</tr>
 		<tr>
-			<td>Location :</td>
+			<td style="color:purple;font-family:fantasy;">Location :</td>
 			<td><input type="text" name="location" id="location"></td>
 		</tr>
 		<tr>
-			<td>Incident Type :</td>
+			<td style="color:purple;font-family:fantasy;">Incident Type :</td>
 			<td>
 				<select name="incidentType" id="incidentType">
 				<?php // populate a combo box with $incidentType
@@ -84,22 +86,24 @@
 			</td>	
 		</tr>
 		<tr>
-			<td>Description :</td>
+			<td style="color:purple;font-family:fantasy;">Description :</td>
 			<td><textarea name="incidentDesc" id="incidentDesc" cols="45"
 				rows="5"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<input type="reset" name="btnCancel" id="btnCancel" value="Reset">
+				<input type="reset" name="btnCancel" id="btnCancel" value="Reset" style="color:purple;font-family:fantasy;">
 			</td>
 			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit"
-				name="btnProcessCall" id="btnProcessCall" value="Process Call...">
+				name="btnProcessCall" id="btnProcessCall" value="Process Call" style="color:purple;font-family:fantasy;">
 			</td>
 		</tr>
 		
+	
 	</table>
 </form>
+
 </body>
 </html>
 			

@@ -1,3 +1,13 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>Police Emergency Service System</title>
+	<link href="header_style.css" rel="stylesheet" type="text/css">
+	<link href="content_style.css" rel="stylesheet" type="text/css">
+</head>
+<body> 
+
 <!-- Part 1 -->
 <?php require_once 'nav.php'; ?>
 <br><br>
@@ -10,14 +20,12 @@ if (!isset($_POST["btnSearch"])){
 	<table class="ContentStyle">
 	<tr></tr>
 	<tr>
-		<td>Patrol Car ID :</td>
+		<td style="color:purple;font-family:fantasy;">Patrol Car ID :</td>
 		<td><input type="text" name="patrolCarId" id="patrolCarId"></td>
-		<td><input type="submit" name="btnSearch" id="btnSearch" value="Search"></td>
+		<td><input type="submit" name="btnSearch" id="btnSearch" value="Search" style="color:purple;font-family:fantasy;"></td>
 		</tr>
 	</table>
 </form>
-<?php
-} ?>
 
 <!-- Part 2 -->
 <?php
@@ -66,17 +74,17 @@ $conn->close();
 <!-- display a form for operator to update status of patrol car -->
 <form name="form2" method="post"
 	action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?> ">
-	<table>
+	<table class="ContentStyle">
 		<tr><tr>
 		<tr>
-			<td>ID : </td>
+			<td style="color:purple;font-family:fantasy;">ID : </td>
 			<td><?php echo $patrolCarId ?>
 			<input type="hidden" name="patrolCarId" id="patrolCarId"
 			value="<?php echo $patrolCarId ?>">
 			</td>
 		</tr>
 		<tr>
-			<td>Status : </td>
+			<td style="color:purple;font-family:fantasy;">Status : </td>
 			<td><select name="patrolCarStatus" id="patrolCarStatus">
 			<?php foreach( $patrolCarStatusArray as $key => $value) { ?>
 			<option value="<?php echo $key ?>"
@@ -89,8 +97,8 @@ $conn->close();
 			</select></td>
 		</tr>
 		<tr>
-			<td><input type="reset" name="btnCancel" id="btnCancel" value="Reset"></td>
-			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="sumbit" name="btnUpdate" id="btnUpdate"  value="Update">
+			<td><input type="reset" name="btnCancel" id="btnCancel" value="Reset" style="color:purple;font-family:fantasy;"></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="btnUpdate" id="btnUpdate"  value="Update" style="color:purple;font-family:fantasy;">
 			
 			</td>
 		</tr>
@@ -99,6 +107,7 @@ $conn->close();
 	
 <!-- Part 3 -->
 <?php
+}
 /* if postback via clicking Update button */
 if (isset($_POST["btnUpdate"])){
 	require_once 'db.php';
@@ -109,7 +118,40 @@ if (isset($_POST["btnUpdate"])){
 		die("Connection failed: " . $connect_error);
 	}
 	// update patrol car status
-	$sql = "UPDATE patrolcar SET patrolcar_status_id = '".$_POST['patrolCarStatus']."' WHERE
+	$sql = "UPDATE patrolcar SET patrolcar_status_id = '".$_POST['patrolCarStatus']."' WHERE patrolcar_id = '".$_POST[
 	'patrolCarId']."'";
 	if ($conn->query($sql)===FALSE) {
 		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+	/* if patrol car status is Arrived (4) then capture the time of arrival */
+	if ($_POST["patrolCarStatus"] == '4') {
+		$sql = "UPDATE dispatch SET time_arrived = NOW() WHERE time_arrived is NULL AND patrolcar_id = '".$_POST['patrolCarId'
+]."'";
+	if ($conn->query($sql)===FALSE) {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+	/* else if patrol car status is FREE (3) then capture the time of completion */ else if($_POST["patrolCarStatus"] == 
+'3') {
+	/* First, retrieve the incident ID from dispatch table handled by that patrol car */
+	$sql = "SELECT incident_id FROM dispatch WHERE time_completed IS NULL AND patrolcar_id = '".$_POST['patrolCarId']."'";
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		while ($row = $result->fetch_assoc()) {
+			$incidentId = $row['incident_id'];
+		}
+	}
+	// next update dispatch table
+	$sql = "UPDATE dispatch SET time_completed = NOW() WHERE time_completed is NULL AND patrolcar_id = '".$_POST[
+'patrolCarId']."'";
+	if ($conn->query($sql)===FALSE) {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+$conn->close();
+?>
+<script type="text/javascript">window.location="./logcall.php";</script>
+<?php } ?>
+
+
+</body>

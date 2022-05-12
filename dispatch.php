@@ -82,8 +82,8 @@ for($i=0; $i < $numOfPatrolcarDispatched; $i++)
 		}
 		
 		// insert dispatched data ////////////////
-		$sql = "INSERT INTO dispatched (incident_id, patrolcar_id, time_dispatched)
-	VALUES ($incidentId, '".$patrolcarDispatched[$i]."' NOW())";
+		$sql = "INSERT INTO dispatch (incident_id, patrolcar_id, time_dispatched)
+	VALUES ($incidentId, '".$patrolcarDispatched[$i]."', NOW())";
 	
 		if ($conn->query($sql)===FALSE) {
 			echo "Error: " . $sql ."<br>". $conn->error;
@@ -94,7 +94,7 @@ for($i=0; $i < $numOfPatrolcarDispatched; $i++)
 ?>
 
 <!-- After dispatching, redirect to logcall.php -->
-<!-- <script type="text/javascript">window.location="./logcall.php";</script> -->
+<script type="text/javascript">window.location="./logcall.php";</script>
 
 <?php }   
 
@@ -104,37 +104,37 @@ require_once 'db.php';
 
 <!-- display the incident information passed from logcall.php -->
 <form name="form1" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?> ">
-<table>
+<table class="ContentStyle">
 
 	<tr>
-		<td colspan="2">Incident Detail</td>
+		<td colspan="2" style="color:yellow;font-family:cursive;">Incident Detail</td>
 	</tr>
 	<tr>
-		<td>Caller's Name :</td>
+		<td style="color:purple;font-family:fantasy;">Caller's Name :</td>
 		<td><?php echo $_POST['callerName'] ?>
 			<input type="hidden" name="callerName" id="callerName"
 			value="<?php echo $_POST['callerName'] ?>"></td>
 	</tr>
 	<tr>
-		<td>Contact No :</td>
+		<td style="color:purple;font-family:fantasy;">Contact No :</td>
 		<td><?php echo $_POST['contactNo']?> 
 		<input type="hidden" name="contactNo" id="contactNo"
 		value="<?php echo $_POST['contactNo']?>"></td>
 	</tr>
 	<tr>
-		<td>Location :</td> 
+		<td style="color:purple;font-family:fantasy;">Location :</td> 
 		<td><?php echo $_POST['location']?> 
 		<input type="hidden" name="location" id="location"
 		value="<?php echo $_POST['location']?>"></td>
 	</tr>
 	<tr>
-		<td>Incident Type :</td>
+		<td style="color:purple;font-family:fantasy;">Incident Type :</td>
 		<td><?php echo $_POST['incidentType']?>
 		<input type="hidden" name="incidentType" id="incidentType"
 		value="<?php echo $_POST['incidentType']?>"></td>
 	</tr>
 	<tr>
-		<td>Description :</td>
+		<td style="color:purple;font-family:fantasy;">Description :</td>
 		<td><textarea name="incidentDesc" cols="45"
 			rows="5" readonly id="incidentDesc"><?php echo $_POST['incidentDesc'] ?>
 			</textarea>
@@ -147,9 +147,9 @@ require_once 'db.php';
 <br><br>
 
 <!-- populatetable with patrol car data -->
-<table>
+<table class="ContentStyle">
 	<tr>
-		<td colspan="3">Dispatch Patrolcar Panel</td>
+		<td colspan="3" style="color:yellow;font-family:cursive;">Dispatch Patrolcar Panel</td>
 	</tr>
 	<?php
 		foreach($patrolcarArray as $key=>$value) {
@@ -162,9 +162,9 @@ require_once 'db.php';
 	</tr>
 	<?php	}	?>
 	<tr>
-		<td><input type="reset" name="btnCancel" id="btnCancel" value="Reset"></td>
+		<td><input type="reset" name="btnCancel" id="btnCancel" value="Reset" style="color:purple;font-family:fantasy;"></td>
 		<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit"
-	name="btnDispatch" id="btnDispatch" value="Dispatch">
+	name="btnDispatch" id="btnDispatch" value="Dispatch" style="color:purple;font-family:fantasy;">
 	
 		</td>
 	</tr>
